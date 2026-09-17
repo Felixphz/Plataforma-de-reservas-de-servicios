@@ -27,6 +27,10 @@ public class UserService {
         Role role = roleRepository.findById(request.getIdRol())
                 .orElseThrow(() -> new IllegalArgumentException("El rol seleccionado no existe"));
 
+        if (!RoleConstants.ROLES_PERMITIDOS_AUTO_REGISTRO.contains(role.getNombre())) {
+            throw new IllegalArgumentException("El rol seleccionado no está permitido para auto-registro");
+        }
+
         User user = User.builder()
                 .nombre(request.getNombre())
                 .correo(request.getCorreo())
