@@ -21,6 +21,24 @@ public class UserRequest {
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String password;
 
+    @NotBlank(message = "El apellido es obligatorio")
+    private String apellido;
+
+    @NotNull(message = "Debe especificar el tipo de documento")
+    private Long idTipoDocumento;
+
+    @NotBlank(message = "El número de documento es obligatorio")
+    private String numeroDocumento;
+
+    @NotBlank(message = "El teléfono es obligatorio")
+    private String telefono;
+
+    @NotNull(message = "Debe especificar la ciudad")
+    private Long idCiudad;
+
+    @NotNull(message = "Debe especificar el tipo de proveedor")
+    private Long idTipoProveedor;
+
     @NotNull(message = "Debe seleccionar un rol")
     private Long idRol;
 }

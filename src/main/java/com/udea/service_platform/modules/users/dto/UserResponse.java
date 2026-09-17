@@ -18,6 +18,10 @@ public class UserResponse {
     private String password;
 
     private String apellido;
+    private Long idTipoDocumento;
+    private String numeroDocumento;
     private String telefono;
+    private Long idCiudad;
+    private Long idTipoProveedor;
     private RoleResponse role;
 }
