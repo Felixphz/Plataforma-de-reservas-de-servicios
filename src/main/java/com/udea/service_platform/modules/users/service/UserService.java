@@ -35,6 +35,12 @@ public class UserService {
                 .nombre(request.getNombre())
                 .correo(request.getCorreo())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .apellido(request.getApellido())
+                .idTipoDocumento(request.getIdTipoDocumento())
+                .numeroDocumento(request.getNumeroDocumento())
+                .telefono(request.getTelefono())
+                .idCiudad(request.getIdCiudad())
+                .idTipoProveedor(request.getIdTipoProveedor())
                 .role(role)
                 .build();
 
@@ -51,7 +57,11 @@ public class UserService {
                 .correo(savedUser.getCorreo())
                 .password(savedUser.getPassword())
                 .apellido(savedUser.getApellido())
+                .idTipoDocumento(savedUser.getIdTipoDocumento())
+                .numeroDocumento(savedUser.getNumeroDocumento())
                 .telefono(savedUser.getTelefono())
+                .idCiudad(savedUser.getIdCiudad())
+                .idTipoProveedor(savedUser.getIdTipoProveedor())
                 .role(roleResponse)
                 .build();
     }
