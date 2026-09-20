@@ -12,24 +12,28 @@ public class ServiceService {
 
     private final ServiceRepository serviceRepository;
 
-    public ServiceResponse createService(ServiceRequest request) {
+    public ServiceResponse createService(ServiceRequest request, Long idProveedor) {
         Service service = Service.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .duration(request.getDuration())
-                .price(request.getPrice())
-                .providerId(request.getProviderId())
+                .nombre(request.getNombre())
+                .descripcion(request.getDescripcion())
+                .categoria(request.getCategoria())
+                .duracion(request.getDuracion())
+                .precio(request.getPrecio())
+                .idProveedor(idProveedor)
+                .idRecursos(request.getIdRecursos())
                 .build();
 
         Service savedService = serviceRepository.save(service);
 
         return ServiceResponse.builder()
                 .id(savedService.getId())
-                .name(savedService.getName())
-                .description(savedService.getDescription())
-                .duration(savedService.getDuration())
-                .price(savedService.getPrice())
-                .providerId(savedService.getProviderId())
+                .nombre(savedService.getNombre())
+                .descripcion(savedService.getDescripcion())
+                .categoria(savedService.getCategoria())
+                .duracion(savedService.getDuracion())
+                .precio(savedService.getPrecio())
+                .idProveedor(savedService.getIdProveedor())
+                .idRecursos(savedService.getIdRecursos())
                 .build();
     }
 }

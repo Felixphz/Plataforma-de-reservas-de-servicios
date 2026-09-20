@@ -12,9 +12,11 @@ import java.math.BigDecimal;
 public class ServiceResponse {
 
     private Long id;
-    private String name;
-    private String description;
-    private Integer duration;
-    private BigDecimal price;
-    private Long providerId;
+    private String nombre;
+    private String descripcion;
+    private String categoria;
+    private Integer duracion;
+    private BigDecimal precio;
+    private Long idProveedor;
+    private Long idRecursos;
 }

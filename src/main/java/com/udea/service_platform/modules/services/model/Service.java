@@ -20,17 +20,23 @@ public class Service {
     private Long id;
 
     @Column(name = "nombre", nullable = false)
-    private String name;
+    private String nombre;
 
     @Column(name = "descripcion")
-    private String description;
+    private String descripcion;
+
+    @Column(name = "categoria", nullable = false)
+    private String categoria;
 
     @Column(name = "duracion", nullable = false)
-    private Integer duration;
+    private Integer duracion;
 
     @Column(name = "precio", nullable = false)
-    private BigDecimal price;
+    private BigDecimal precio;
 
     @Column(name = "id_usuario_proveedor", nullable = false)
-    private Long providerId;
+    private Long idProveedor;
+
+    @Column(name = "id_recursos", nullable = false)
+    private Long idRecursos;
 }
