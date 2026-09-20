@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: service-platform-api
+    env: docker
+    plan: free
+    region: ohio
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        # En producción puedes cambiar esto por la URL real de tu frontend
+        value: http://localhost:3000,http://localhost:4200,http://localhost:5173
