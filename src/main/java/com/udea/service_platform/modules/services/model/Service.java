@@ -39,4 +39,8 @@ public class Service {
 
     @Column(name = "id_recursos", nullable = false)
     private Long idRecursos;
+
+    @Column(name = "activo", nullable = false)
+    @Builder.Default
+    private Boolean active = true;
 }
