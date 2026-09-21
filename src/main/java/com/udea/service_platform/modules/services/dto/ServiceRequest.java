@@ -33,6 +33,4 @@ public class ServiceRequest {
 
     @NotNull(message = "Debe especificar el recurso")
     private Long idRecursos;
-
-    private Boolean active;
 }

@@ -42,5 +42,5 @@ public class Service {
 
     @Column(name = "activo", nullable = false)
     @Builder.Default
-    private Boolean active = true;
+    private Boolean activo = true;
 }
