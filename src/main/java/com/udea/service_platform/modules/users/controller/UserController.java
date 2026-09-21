@@ -1,12 +1,14 @@
 package com.udea.service_platform.modules.users.controller;
 
-import com.udea.service_platform.modules.users.dto.UserRequest;
-import com.udea.service_platform.modules.users.dto.UserResponse;
+import com.udea.service_platform.modules.users.dto.*;
 import com.udea.service_platform.modules.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

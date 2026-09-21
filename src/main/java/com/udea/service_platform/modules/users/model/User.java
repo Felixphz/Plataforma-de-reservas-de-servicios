@@ -44,6 +44,13 @@ public class User {
     @Column(name = "id_tipo_proveedor")
     private Long idTipoProveedor;
 
+    @Column(name = "estado_cuenta", nullable = false)
+    @Builder.Default
+    private String estadoCuenta = "ACTIVA";
+
+    @Column(name = "notas_especiales")
+    private String notasEspeciales;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     private Role role;

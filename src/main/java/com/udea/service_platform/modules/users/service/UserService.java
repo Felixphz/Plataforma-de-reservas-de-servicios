@@ -1,13 +1,15 @@
 package com.udea.service_platform.modules.users.service;
 
-import com.udea.service_platform.modules.users.dto.RoleResponse;
-import com.udea.service_platform.modules.users.dto.UserRequest;
-import com.udea.service_platform.modules.users.dto.UserResponse;
+import com.udea.service_platform.modules.reservations.repository.ReservaRepository;
+import com.udea.service_platform.modules.users.dto.*;
 import com.udea.service_platform.modules.users.model.Role;
 import com.udea.service_platform.modules.users.model.User;
+import com.udea.service_platform.modules.users.repository.ClientSpecification;
 import com.udea.service_platform.modules.users.repository.RoleRepository;
 import com.udea.service_platform.modules.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ReservaRepository reservaRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserResponse register(UserRequest request) {
@@ -64,5 +67,57 @@ public class UserService {
                 .idTipoProveedor(savedUser.getIdTipoProveedor())
                 .role(roleResponse)
                 .build();
+    }
+
+    public Page<ClientSummaryResponse> searchClients(String searchTerm, Pageable pageable) {
+        var spec = ClientSpecification.buildFilter(searchTerm);
+        return userRepository.findAll(spec, pageable)
+                .map(user -> ClientSummaryResponse.builder()
+                        .idUsuario(user.getIdUsuario())
+                        .nombre(user.getNombre())
+                        .apellido(user.getApellido())
+                        .correo(user.getCorreo())
+                        .telefono(user.getTelefono())
+                        .estadoCuenta(user.getEstadoCuenta())
+                        .build());
+    }
+
+    public ClientDetailResponse getClientDetail(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        if (!"Cliente".equals(user.getRole().getNombre())) {
+            throw new IllegalArgumentException("El usuario no tiene rol de Cliente");
+        }
+
+        return ClientDetailResponse.builder()
+                .idUsuario(user.getIdUsuario())
+                .nombre(user.getNombre())
+                .apellido(user.getApellido())
+                .correo(user.getCorreo())
+                .telefono(user.getTelefono())
+                .numeroDocumento(user.getNumeroDocumento())
+                .idTipoDocumento(user.getIdTipoDocumento())
+                .idCiudad(user.getIdCiudad())
+                .estadoCuenta(user.getEstadoCuenta())
+                .notasEspeciales(user.getNotasEspeciales())
+                .build();
+    }
+
+    public Page<ReservaSummaryResponse> getClientReservations(Long clienteId, Pageable pageable) {
+        User user = userRepository.findById(clienteId)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        if (!"Cliente".equals(user.getRole().getNombre())) {
+            throw new IllegalArgumentException("El usuario no tiene rol de Cliente");
+        }
+
+        return reservaRepository.findByIdUsuarioOrderByFechaInicioDesc(clienteId, pageable)
+                .map(reserva -> ReservaSummaryResponse.builder()
+                        .id(reserva.getId())
+                        .servicioNombre(reserva.getServicio().getNombre())
+                        .fechaInicio(reserva.getFechaInicio())
+                        .estado("ACTIVA")
+                        .build());
     }
 }
