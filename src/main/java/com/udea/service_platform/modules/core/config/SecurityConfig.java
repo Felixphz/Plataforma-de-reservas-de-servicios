@@ -51,6 +51,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/users/register", "/api/roles", "/api/auth/login", "/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/services/public").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/services").hasRole("PROVEEDOR")
                 .anyRequest().authenticated()
             )

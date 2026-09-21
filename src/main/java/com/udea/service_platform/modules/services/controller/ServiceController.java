@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/services")
 @RequiredArgsConstructor
@@ -26,5 +28,14 @@ public class ServiceController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ServiceResponse response = serviceService.createService(request, userDetails.getIdUsuario());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/public")
+    public ResponseEntity<List<ServiceResponse>> getPublicCatalog(
+            @RequestParam(required = false) Long providerId,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double maxPrice) {
+        List<ServiceResponse> catalog = serviceService.getPublicCatalog(providerId, category, maxPrice);
+        return ResponseEntity.ok(catalog);
     }
 }
