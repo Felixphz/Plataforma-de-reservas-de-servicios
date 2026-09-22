@@ -8,11 +8,14 @@ import com.udea.service_platform.modules.users.repository.ClientSpecification;
 import com.udea.service_platform.modules.users.repository.RoleRepository;
 import com.udea.service_platform.modules.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -38,16 +41,25 @@ public class UserService {
                 .nombre(request.getNombre())
                 .correo(request.getCorreo())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .apellido(request.getApellido())
-                .idTipoDocumento(request.getIdTipoDocumento())
-                .numeroDocumento(request.getNumeroDocumento())
-                .telefono(request.getTelefono())
-                .idCiudad(request.getIdCiudad())
+                .apellido(request.getApellido() != null ? request.getApellido() : "")
+                .idTipoDocumento(request.getIdTipoDocumento() != null ? request.getIdTipoDocumento() : 1L)
+                .numeroDocumento(request.getNumeroDocumento() != null ? request.getNumeroDocumento() : "00000000")
+                .telefono(request.getTelefono() != null ? request.getTelefono() : "0000000000")
+                .idCiudad(request.getIdCiudad() != null ? request.getIdCiudad() : 1L)
                 .idTipoProveedor(request.getIdTipoProveedor())
                 .role(role)
                 .build();
 
-        User savedUser = userRepository.save(user);
+        User savedUser;
+        try {
+            savedUser = userRepository.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            log.error("Database error during registration for email {}: {}", request.getCorreo(), ex.getMessage(), ex);
+            throw new IllegalArgumentException("Error al registrar el usuario: verifique los datos proporcionados");
+        } catch (Exception ex) {
+            log.error("Unexpected error during registration for email {}: {}", request.getCorreo(), ex.getMessage(), ex);
+            throw new IllegalArgumentException("Error interno al registrar el usuario");
+        }
 
         RoleResponse roleResponse = RoleResponse.builder()
                 .idRol(role.getIdRol())

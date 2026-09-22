@@ -15,7 +15,6 @@ public class RoleService {
 
     public List<RoleResponse> findAll() {
         return roleRepository.findAll().stream()
-                .filter(r -> RoleConstants.ROLES_PERMITIDOS_AUTO_REGISTRO.contains(r.getNombre()))
                 .map(r -> RoleResponse.builder()
                         .idRol(r.getIdRol())
                         .nombre(r.getNombre())

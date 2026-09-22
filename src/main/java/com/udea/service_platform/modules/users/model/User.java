@@ -52,6 +52,6 @@ public class User {
     private String notasEspeciales;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
+    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol", nullable = false)
     private Role role;
 }
