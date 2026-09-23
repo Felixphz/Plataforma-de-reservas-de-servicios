@@ -1,6 +1,7 @@
 package com.udea.service_platform.modules.users.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.udea.service_platform.modules.core.security.JwtUtil;
 import com.udea.service_platform.modules.users.dto.RoleResponse;
 import com.udea.service_platform.modules.users.dto.UserRequest;
 import com.udea.service_platform.modules.users.dto.UserResponse;
@@ -9,6 +10,7 @@ import com.udea.service_platform.modules.users.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +31,12 @@ class UserControllerTest {
 
     @MockitoBean
     private UserService userService;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
+
+    @MockitoBean
+    private UserDetailsService userDetailsService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
