@@ -22,7 +22,7 @@ class RoleServiceTest {
     private RoleRepository roleRepository;
 
     @InjectMocks
-    private RoleService roleService;
+    private RoleServiceImpl roleService;
 
     private Role clienteRole;
     private Role proveedorRole;

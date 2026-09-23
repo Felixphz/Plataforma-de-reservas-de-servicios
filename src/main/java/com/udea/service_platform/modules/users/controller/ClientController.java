@@ -1,5 +1,6 @@
 package com.udea.service_platform.modules.users.controller;
 
+import com.udea.service_platform.modules.reservations.service.ReservaService;
 import com.udea.service_platform.modules.users.dto.ClientDetailResponse;
 import com.udea.service_platform.modules.users.dto.ClientSummaryResponse;
 import com.udea.service_platform.modules.users.dto.ReservaSummaryResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController {
 
     private final UserService userService;
+    private final ReservaService reservaService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('PROVEEDOR', 'ADMIN')")
@@ -41,7 +43,7 @@ public class ClientController {
             @PathVariable Long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Page<ReservaSummaryResponse> reservations = userService.getClientReservations(id, PageRequest.of(page, size));
+        Page<ReservaSummaryResponse> reservations = reservaService.getClientReservations(id, PageRequest.of(page, size));
         return ResponseEntity.ok(reservations);
     }
 }
